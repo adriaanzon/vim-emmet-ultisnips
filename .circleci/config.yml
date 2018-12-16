@@ -1,0 +1,12 @@
+version: 2
+
+# TODO: lint with 'black'
+jobs:
+    test:
+        docker:
+            - image: circleci/python:3.7
+        steps:
+            - checkout
+            - run:
+                command: |
+                    python pythonx/emmet_test.py
