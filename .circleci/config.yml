@@ -1,17 +1,16 @@
 version: 2
 
-# TODO: lint with 'black'
 jobs:
     build:
         docker:
             - image: circleci/python:3.7
         steps:
             - checkout
-            - run:
-                command: |
-                    python pythonx/emmet_test.py
+            - run: python pythonx/emmet_test.py
+            - run: |
+                sudo pip install black
+                black --check pythonx/
         branches:
             only:
                 - master
                 - test-circleci
-
