@@ -10,3 +10,8 @@ jobs:
             - run:
                 command: |
                     python pythonx/emmet_test.py
+        branches:
+            only:
+                - master
+                - test-circleci
+
