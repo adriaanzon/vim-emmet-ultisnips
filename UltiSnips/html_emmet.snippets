@@ -1,0 +1,84 @@
+global !p
+from emmet import Parser
+import re
+
+def replace_line_with_expanded_emmet_abbreviation(snip):
+    abbreviation = snip.buffer[snip.line].strip()
+
+    # Erase current line. Emmet snippet has 'b' flag so we can safely do this.
+    snip.buffer[snip.line] = re.match(r"^\s*", snip.buffer[snip.line]).group(0)
+
+    snip.expand_anon(Parser.expand_abbreviation(abbreviation))
+
+
+def is_at_toplevel():
+    """
+    Checks if the cursor is at the top level of a file, syntax-wise.
+    """
+    return vim.eval("synstack(line('.'), col('.'))") == []
+endglobal
+
+priority -1000
+
+snippet ! "Skeleton" b
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>${1:`!p snip.rv = snip.basename.title()`}</title>
+</head>
+<body>
+	$0
+</body>
+</html>
+endsnippet
+
+# Tags with specific attributes
+snippet a "Tag: <a>" b
+<a href="$1">$2</a>
+endsnippet
+
+snippet img "Tag: <img>" b
+<img src="$1"${2: alt="$3"}>
+endsnippet
+
+snippet form "Tag: <form>" b
+<form method="${1:POST}">
+	$0
+</form>
+endsnippet
+
+snippet link "Tag: <link>" b
+<link rel="stylesheet" href="$1">
+endsnippet
+
+snippet meta "Tag: <meta>" b
+<meta name="$1" content="$2">
+endsnippet
+
+snippet input "Tag: <input>" b
+<input name="$1">
+endsnippet
+
+snippet textarea "Tag: <textarea>" b
+<textarea name="$1">$2</textarea>
+endsnippet
+
+snippet "hr|br" "Element without closing tag" rb
+<`!p snip.rv = match.group(0)`>
+endsnippet
+
+priority -1001
+
+# Expand emmet abbreviation. Currently only works with tag names, classes and id's.
+#
+# Because is_at_toplevel() is being used here, emmet snippets won't be expanded in:
+# * The portion of a tag between the "<" and ">"
+# * A script or style tag
+# * A comment
+
+post_jump "replace_line_with_expanded_emmet_abbreviation(snip)"
+snippet "(?=.)[0-9A-Za-z-]*([\.#][0-9A-Za-z-]+)*" "Emmet Abbreviation" "is_at_toplevel()" rbe
+`!p snip.rv = match.group(0)`
+endsnippet
