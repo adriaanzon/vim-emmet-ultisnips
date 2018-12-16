@@ -2,7 +2,7 @@ version: 2
 
 # TODO: lint with 'black'
 jobs:
-    test:
+    build:
         docker:
             - image: circleci/python:3.7
         steps:
