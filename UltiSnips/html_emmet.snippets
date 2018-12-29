@@ -79,6 +79,6 @@ priority -1001
 # * A comment
 
 post_jump "replace_line_with_expanded_emmet_abbreviation(snip)"
-snippet "(?=.)[0-9A-Za-z-]*([\.#][0-9A-Za-z-]+)*" "Emmet Abbreviation" "is_at_toplevel()" rbe
+snippet "(?=.)[A-Za-z0-9-]*([\.#][A-Za-z0-9-_:]+)*" "Emmet Abbreviation" "is_at_toplevel()" rbe
 `!p snip.rv = match.group(0)`
 endsnippet

@@ -72,7 +72,7 @@ class Parser:
         el = Element()
 
         # extract name
-        regex = re.compile(r"^(\w+)")
+        regex = re.compile(r"^([A-Za-z0-9-]+)")
         name_match = regex.match(input)
         input = regex.sub("", input)
 
@@ -83,7 +83,7 @@ class Parser:
 
         while input:
             # extract classes...
-            regex = re.compile(r"^\.(\w+)")
+            regex = re.compile(r"^\.([A-Za-z0-9-_:]+)")
             match = regex.match(input)
             input = regex.sub("", input)
             if match:
@@ -91,7 +91,7 @@ class Parser:
                 continue
 
             # extract ids...
-            regex = re.compile(r"^#(\w+)")
+            regex = re.compile(r"^#([A-Za-z0-9-_:]+)")
             match = regex.match(input)
             input = regex.sub("", input)
             if match:
