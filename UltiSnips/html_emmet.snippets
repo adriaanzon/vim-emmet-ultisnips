@@ -15,7 +15,11 @@ def is_at_toplevel():
     """
     Checks if the cursor is at the top level of a file, syntax-wise.
     """
-    return vim.eval("synstack(line('.'), col('.'))") == []
+    expr = "synstack(line('.'), col('.'))"
+    try:
+        return vim.api.eval(expr) == []
+    except AttributeError:
+        return vim.eval(expr) == []
 endglobal
 
 priority -1000
