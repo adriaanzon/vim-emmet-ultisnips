@@ -6,7 +6,7 @@ jobs:
             - image: circleci/python:3.7
         steps:
             - checkout
-            - run: python pythonx/emmet_test.py
+            - run: python python3/emmet_test.py
             - run: |
                 sudo pip install black
-                black --check pythonx/
+                black --check python3/
