@@ -16,7 +16,7 @@ jobs:
         steps:
             - checkout
             - run: apk add make git vim neovim
-            - run: make test
+            - run: make test-vim
             - run: make test-nvim
 
 workflows:
