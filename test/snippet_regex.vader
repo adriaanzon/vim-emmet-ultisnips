@@ -1,0 +1,48 @@
+Given html (plain tag):
+  div
+Do:
+  A\<Tab>
+Expect:
+  <div></div>
+
+Given html (plain class):
+  .foo
+Do:
+  A\<Tab>
+Expect:
+  <div class="foo"></div>
+
+Given html (multiple classes):
+  .foo.bar
+Do:
+  A\<Tab>
+Expect:
+  <div class="foo bar"></div>
+
+Given html (tag with class):
+  p.foo.bar
+Do:
+  A\<Tab>
+Expect:
+  <p class="foo bar"></p>
+
+Given html (plain id):
+  #foo
+Do:
+  A\<Tab>
+Expect:
+  <div id="foo"></div>
+
+Given html (multiple ids):
+  #foo#bar
+Do:
+  A\<Tab>
+Expect:
+  <div id="bar"></div>
+
+Given html (tag with id):
+  p#foo
+Do:
+  A\<Tab>
+Expect:
+  <p id="foo"></p>
