@@ -46,3 +46,10 @@ Do:
   A\<Tab>
 Expect:
   <p id="foo"></p>
+
+Given html (it should not match zero-width):
+  ;
+Do:
+  A\<Tab>test
+Expect:
+  ; test
