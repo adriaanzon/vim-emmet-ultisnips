@@ -24,4 +24,4 @@ workflows:
     test-python-and-vim:
         jobs:
             - test-python
-            - test-vim
+            # - test-vim
