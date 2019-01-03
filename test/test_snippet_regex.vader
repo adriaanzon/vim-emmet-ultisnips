@@ -47,9 +47,9 @@ Do:
 Expect:
   <p id="foo"></p>
 
-Given html (it should not match zero-width):
+Given html (character that isn't matched by emmet regex):
   ;
 Do:
   A\<Tab>test
-Expect:
+Expect (it should not match zero-width):
   ; test
