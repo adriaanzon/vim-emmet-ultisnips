@@ -87,23 +87,21 @@ class Parser:
         tap(match.group(1)) if match else tap("div")
         return True
 
-    def extract_class(self, tap):
-        """Extract a class name from the input if it comes first"""
-        regex = re.compile(r"^\.([A-Za-z0-9-_:]+)")
+    def extract_pattern(self, pattern, tap):
+        regex = re.compile(pattern)
         match = regex.match(self.input)
         if match:
             self.input = regex.sub("", self.input)
             tap(match.group(1))
         return bool(match)
 
+    def extract_class(self, tap):
+        """Extract a class name from the input if it comes first"""
+        return self.extract_pattern(r"^\.([A-Za-z0-9-_:]+)", tap)
+
     def extract_id(self, tap):
         """Extract the id from the input if it comes first"""
-        regex = re.compile(r"^#([A-Za-z0-9-_:]+)")
-        match = regex.match(self.input)
-        if match:
-            self.input = regex.sub("", self.input)
-            tap(match.group(1))
-        return bool(match)
+        return self.extract_pattern(r"^#([A-Za-z0-9-_:]+)", tap)
 
 
 def expand_abbreviation(input: str) -> str:
