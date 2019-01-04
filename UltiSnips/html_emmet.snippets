@@ -1,5 +1,5 @@
 global !p
-from emmet import Parser
+from emmet import expand_abbreviation
 import re
 
 def replace_line_with_expanded_emmet_abbreviation(snip):
@@ -8,7 +8,7 @@ def replace_line_with_expanded_emmet_abbreviation(snip):
     # Erase current line. Emmet snippet has 'b' flag so we can safely do this.
     snip.buffer[snip.line] = re.match(r"^\s*", snip.buffer[snip.line]).group(0)
 
-    snip.expand_anon(Parser.expand_abbreviation(abbreviation))
+    snip.expand_anon(expand_abbreviation(abbreviation))
 
 
 def is_at_toplevel():
