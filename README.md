@@ -22,6 +22,7 @@ sufficient for what I need.
 | element | `div`, `p`         |
 | class   | `.foo`, `.foo.bar` |
 | id      | `#foobar`          |
+| repeat  | `div*3`            |
 
 ## Alternatives
 

@@ -103,9 +103,14 @@ class Parser:
         """Extract the id from the input if it comes first"""
         return self.extract_pattern(r"^#([A-Za-z0-9-_:]+)", tap)
 
+    def extract_repeat(self, tap):
+        return self.extract_pattern(r"^\*(\d+)", tap)
+
 
 def expand_abbreviation(input: str) -> str:
+    elements = []
     el = Element()
+    elements.append(el)
     parser = Parser(input)
 
     parser.extract_element_name(lambda name: el.set_name(name))
@@ -120,10 +125,15 @@ def expand_abbreviation(input: str) -> str:
         # extract custom attributes...
         # extract content...
 
+        if parser.extract_repeat(
+            lambda times: [elements.append(el) for _ in range(1, int(times))]
+        ):
+            continue
+
         # stop parsing when unrecognized content was found
         break
 
-    return add_tabstops(str(el))
+    return add_tabstops("\n".join([str(el) for el in elements]))
 
 
 def add_tabstops(html: str):

@@ -63,6 +63,13 @@ class TestEmmetParser(unittest.TestCase):
             add_tabstops("<div>{}</div><div>{}</div><div>{}</div>"),
         )
 
+    def test_repeat(self):
+        self.assertEqual("<div>$1</div>\n<div>$0</div>", expand_abbreviation("div*2"))
+        self.assertEqual(
+            '<div class="foo" id="bar">$1</div>\n<div class="foo" id="bar">$0</div>',
+            expand_abbreviation(".foo#bar*2"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
