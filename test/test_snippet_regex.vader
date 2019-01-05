@@ -53,3 +53,19 @@ Do:
   A\<Tab>test
 Expect (it should not match zero-width):
   ; test
+
+Given html (repeat without element before it):
+  *3
+Do:
+  A\<Tab>test
+Expect (ignore):
+  *3  test
+
+Given html (repeat with element before it):
+  .foo*3
+Do:
+  A\<Tab>test
+Expect (expand):
+  <div class="foo">test</div>
+  <div class="foo"></div>
+  <div class="foo"></div>
