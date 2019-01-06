@@ -82,7 +82,7 @@ priority -1001
 # * A script or style tag
 # * A comment
 
+pre_expand "snip.cursor.preserve()"
 post_jump "replace_line_with_expanded_emmet_abbreviation(snip)"
 snippet "(?=.)[A-Za-z0-9-]*([\.#][A-Za-z0-9-_:]+|\*\d+)*" "Emmet Abbreviation" "is_at_toplevel()" rbe
-`!p snip.rv = match.group(0)`
 endsnippet
