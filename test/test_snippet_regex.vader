@@ -56,7 +56,7 @@ Expect (it should not match zero-width):
 
 Given html (repeat without element before it):
   *3
-Do:
+Do (FIXME: this requires the regex to have a lookbehind which is impossible since lookbehinds need to be fixed-width):
   A\<Tab>test
 Expect (ignore):
   *3  test
