@@ -1,50 +1,7 @@
 global !p
 from emmet import expand_abbreviation
+from snippet_helpers import should_expand_emmet
 import re
-
-syntaxes = [
-	"htmlStrike",
-	"htmlBold",
-	"htmlBoldUnderline",
-	"htmlBoldItalic",
-	"htmlBoldUnderlineItalic",
-	"htmlBoldItalicUnderline",
-	"htmlUnderline",
-	"htmlUnderlineBold",
-	"htmlUnderlineItalic",
-	"htmlUnderlineItalicBold",
-	"htmlUnderlineBoldItalic",
-	"htmlItalic",
-	"htmlItalicBold",
-	"htmlItalicBoldUnderline",
-	"htmlItalicUnderline",
-	"htmlItalicUnderlineBold",
-	"htmlLink",
-	"htmlH1",
-	"htmlH2",
-	"htmlH3",
-	"htmlH4",
-	"htmlH5",
-	"htmlH6",
-	"htmlHead",
-]
-
-
-def is_at_toplevel():
-	"""
-	Checks if the cursor is at the top level of a file, syntax-wise.
-	"""
-	expr = "map(synstack(line('.'), col('.')), {_, id -> synIDattr(id, 'name')})"
-
-	try:
-		synstack = vim.api.eval(expr)
-	except AttributeError:
-		synstack = vim.eval(expr)
-
-	return synstack == [] or (
-		'htmlTag' not in synstack and any(syntax in synstack for syntax in syntaxes)
-	)
-
 
 def replace_line_with_expanded_emmet_abbreviation(snip):
 	abbreviation = snip.buffer[snip.line].strip()
@@ -110,12 +67,12 @@ priority -1001
 
 # Expand emmet abbreviation. Currently only works with tag names, classes and id's.
 #
-# Because is_at_toplevel() is being used here, emmet snippets won't be expanded in:
+# Because should_expand_emmet() is being used here, emmet snippets won't be expanded in:
 # * The portion of a tag between the "<" and ">"
 # * A script or style tag
 # * A comment
 
 pre_expand "snip.cursor.preserve()"
 post_jump "replace_line_with_expanded_emmet_abbreviation(snip)"
-snippet "(?=.)[A-Za-z0-9-]*([\.#][A-Za-z0-9-_:]+|\*\d+)*" "Emmet Abbreviation" "is_at_toplevel()" rbe
+snippet "(?=.)[A-Za-z0-9-]*([\.#][A-Za-z0-9-_:]+|\*\d+)*" "Emmet Abbreviation" "should_expand_emmet()" rbe
 endsnippet
