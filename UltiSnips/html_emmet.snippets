@@ -2,24 +2,57 @@ global !p
 from emmet import expand_abbreviation
 import re
 
-def replace_line_with_expanded_emmet_abbreviation(snip):
-    abbreviation = snip.buffer[snip.line].strip()
-
-    # Erase current line. Emmet snippet has 'b' flag so we can safely do this.
-    snip.buffer[snip.line] = re.match(r"^\s*", snip.buffer[snip.line]).group(0)
-
-    snip.expand_anon(expand_abbreviation(abbreviation))
+syntaxes = [
+	"htmlStrike",
+	"htmlBold",
+	"htmlBoldUnderline",
+	"htmlBoldItalic",
+	"htmlBoldUnderlineItalic",
+	"htmlBoldItalicUnderline",
+	"htmlUnderline",
+	"htmlUnderlineBold",
+	"htmlUnderlineItalic",
+	"htmlUnderlineItalicBold",
+	"htmlUnderlineBoldItalic",
+	"htmlItalic",
+	"htmlItalicBold",
+	"htmlItalicBoldUnderline",
+	"htmlItalicUnderline",
+	"htmlItalicUnderlineBold",
+	"htmlLink",
+	"htmlH1",
+	"htmlH2",
+	"htmlH3",
+	"htmlH4",
+	"htmlH5",
+	"htmlH6",
+	"htmlHead",
+]
 
 
 def is_at_toplevel():
-    """
-    Checks if the cursor is at the top level of a file, syntax-wise.
-    """
-    expr = "synstack(line('.'), col('.'))"
-    try:
-        return vim.api.eval(expr) == []
-    except AttributeError:
-        return vim.eval(expr) == []
+	"""
+	Checks if the cursor is at the top level of a file, syntax-wise.
+	"""
+	expr = "map(synstack(line('.'), col('.')), {_, id -> synIDattr(id, 'name')})"
+
+	try:
+		synstack = vim.api.eval(expr)
+	except AttributeError:
+		synstack = vim.eval(expr)
+
+	return synstack == [] or (
+		'htmlTag' not in synstack and any(syntax in synstack for syntax in syntaxes)
+	)
+
+
+def replace_line_with_expanded_emmet_abbreviation(snip):
+	abbreviation = snip.buffer[snip.line].strip()
+
+	# Erase current line. Emmet snippet has 'b' flag so we can safely do this.
+	snip.buffer[snip.line] = re.match(r"^\s*", snip.buffer[snip.line]).group(0)
+
+	snip.expand_anon(expand_abbreviation(abbreviation))
 endglobal
 
 priority -1000

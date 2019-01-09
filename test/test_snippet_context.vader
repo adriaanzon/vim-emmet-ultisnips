@@ -1,0 +1,181 @@
+Given html:
+  div
+Do:
+  A\<Tab>t
+Expect (expands at top level):
+  <div>t</div>
+
+Given html:
+  <div
+    id="lalala"
+    div
+  ></div>
+Do:
+  3GA\<Tab>t
+Expect (does not expand inside the attribute portion of a tag):
+  <div
+    id="lalala"
+    div t
+  ></div>
+
+Given html:
+  <div>
+    div
+  </div>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of a tag):
+  <div>
+    <div>t</div>
+  </div>
+
+Given html:
+  <a href="/home">
+    div
+  </a>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <a> tag):
+  <a href="/home">
+    <div>t</div>
+  </a>
+
+Given html:
+  <a
+    href="/home"
+    div
+  ></a>
+Do:
+  3GA\<Tab>t
+Expect (does not expand inside the attribute portion of an <a> tag):
+  <a
+    href="/home"
+    div t
+  ></a>
+
+Given html:
+  <h1>
+    div
+  </h1>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <h1> tag):
+  <h1>
+    <div>t</div>
+  </h1>
+
+Given html:
+  <!doctype html>
+  <html>
+  <head>
+    title
+  </head>
+  </html>
+Do:
+  4GA\<Tab>t
+Expect (expands inside the inner portion of a <head> tag):
+  <!doctype html>
+  <html>
+  <head>
+    <title>t</title>
+  </head>
+  </html>
+
+Given html:
+  <em>
+    div
+  </em>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <em> tag):
+  <em>
+    <div>t</div>
+  </em>
+
+Given html:
+  <i>
+    div
+  </i>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <i> tag):
+  <i>
+    <div>t</div>
+  </i>
+
+Given html:
+  <b>
+    div
+  </b>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of a <b> tag):
+  <b>
+    <div>t</div>
+  </b>
+
+Given html:
+  <u>
+    div
+  </u>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of a<u> tag):
+  <u>
+    <div>t</div>
+  </u>
+
+Given html:
+  <strong>
+    div
+  </strong>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of a <strong> tag):
+  <strong>
+    <div>t</div>
+  </strong>
+
+Given html:
+  <em>
+    div
+  </em>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <em> tag):
+  <em>
+    <div>t</div>
+  </em>
+
+Given html:
+  <em>
+    div
+  </em>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <em> tag):
+  <em>
+    <div>t</div>
+  </em>
+
+Given html:
+  <em>
+    div
+  </em>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <em> tag):
+  <em>
+    <div>t</div>
+  </em>
+
+Given html:
+  <em>
+    div
+  </em>
+Do:
+  2GA\<Tab>t
+Expect (expands inside the inner portion of an <em> tag):
+  <em>
+    <div>t</div>
+  </em>
