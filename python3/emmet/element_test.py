@@ -40,6 +40,17 @@ class TestElementStringRepresentations(unittest.TestCase):
         el.content = [Element("em"), Element("strong")]
         self.assertEqual("<div>\n\t<em>{}</em>\n\t<strong>{}</strong>\n</div>", str(el))
 
+    def test_element_with_repeated_child(self):
+        # TODO: Still need to decide if I'm going to implement a count attribute.
+        # I think it's needed when combining nesting (>) with repeating (*).
+        self.skipTest("not implemented")
+        el = Element("div")
+        el.content = [Element("p")]
+        el.content[0].count = 3
+        self.assertEqual(
+            "<div>\n\t<p>{}</p>\n\t<p>{}</p>\n\t<p>{}</p>\n</div>", str(el)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
