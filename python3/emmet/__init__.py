@@ -1,11 +1,11 @@
 from __future__ import annotations
 import string
-from emmet.element import Element
+from emmet.element import Element, ElementCollection
 from emmet.parser import Parser
 
 
 def expand_abbreviation(input: str) -> str:
-    elements = []
+    elements = ElementCollection()
     el = Element()
     elements.append(el)
     parser = Parser(input)
@@ -22,14 +22,13 @@ def expand_abbreviation(input: str) -> str:
         # extract custom attributes...
         # extract content...
 
-        if parser.extract_repeat(
-            lambda times: [elements.append(el) for _ in range(1, int(times))]
-        ):
+        if parser.extract_repeat(lambda times: el.set_count(times)):
             continue
 
         # stop parsing when unrecognized content was found
         break
 
+    # TODO: add __str__ method on ElementCollection
     return add_tabstops("\n".join([str(el) for el in elements]))
 
 

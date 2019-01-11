@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import List, Optional, Union
 from copy import copy
+from functools import reduce
 
 
 class ElementCollection:
@@ -8,28 +9,37 @@ class ElementCollection:
 
     def __init__(self, items=None):
         if isinstance(items, self.__class__):
-            return items
+            self.items = items.items
         elif items:
             self.items = items
         else:
-            items = []
+            self.items = []
 
     def __len__(self):
-        length = 0
-        for i in self.items:
-            length += i.count if isinstance(i, Element) else 1
-        return length
-        # return reduce(lambda length, i: length + i.count, self.items)
+        return reduce(lambda length, value: length + value.count, self.items, 0)
 
     def __iter__(self):
-        return self.flatten()
+        self._current = 0
+        return self
+
+    def __next__(self):
+        flattened = self.flatten()
+        if self._current < len(flattened):
+            result = flattened[self._current]
+            self._current += 1
+            return result
+        else:
+            raise StopIteration
+
+    def append(self, value):
+        self.items.append(value)
 
     def flatten(self):
         items = []
         for i in self.items:
             for nth in range(i.count):
                 # maybe move this for loop to a to_list() function on Element
-                repeated_item = copy
+                repeated_item = copy(i)
                 repeated_item.count = 1
                 items += [repeated_item]
         return items
@@ -50,14 +60,14 @@ class Text:
 class Element:
     name: str
     attributes: List[Attribute]
-    content: List[Union[Element, str]]
+    content: ElementCollection
     count = 1
     # an "nth" property may be needed when supporting the ($) operator
 
     def __init__(self, name="div"):
         self.name = name
         self.attributes = []
-        self.content = []
+        self.content = ElementCollection()
 
     def __str__(self) -> str:
         indent = self.child_indent_level()
@@ -79,6 +89,9 @@ class Element:
 
         return el + "</" + self.name + ">"
 
+    def set_content(self, value):
+        self.content = ElementCollection(value)
+
     def set_name(self, value):
         self.name = value
 
@@ -97,6 +110,9 @@ class Element:
                 return
 
         self.attributes.append(Attribute(name, [value]))
+
+    def set_count(self, value):
+        self.count = int(value)
 
     def child_indent_level(self):
         return 1
