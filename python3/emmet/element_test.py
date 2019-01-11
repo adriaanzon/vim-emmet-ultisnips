@@ -1,5 +1,5 @@
 import unittest
-from emmet.element import Attribute, Element, ElementCollection
+from emmet.element import Attribute, Element, ElementCollection, Text
 
 
 class TestElementStringRepresentations(unittest.TestCase):
@@ -15,37 +15,34 @@ class TestElementStringRepresentations(unittest.TestCase):
     def test_element_with_text_content(self):
         el = Element()
         el.name = "div"
-        el.content = ["some text"]
+        el.set_content([Text("some text")])
         self.assertEqual("<div>some text</div>", str(el))
 
     def test_element_with_multiple_text_content(self):
         el = Element()
         el.name = "div"
 
-        el.content = ["some text", "and some more"]
+        el.set_content([Text("some text"), Text("and some more")])
         self.assertEqual("<div>\n\tsome text\n\tand some more\n</div>", str(el))
 
-        el.content = ["some text", "and some more", "third"]
+        el.set_content([Text("some text"), Text("and some more"), Text("third")])
         self.assertEqual(
             "<div>\n\tsome text\n\tand some more\n\tthird\n</div>", str(el)
         )
 
     def test_nested_elements(self):
         el = Element("div")
-        el.content = [Element("i")]
+        el.set_content([Element("i")])
         self.assertEqual("<div>\n\t<i>{}</i>\n</div>", str(el))
 
     def test_nested_elements_with_siblings(self):
         el = Element("div")
-        el.content = [Element("em"), Element("strong")]
+        el.set_content([Element("em"), Element("strong")])
         self.assertEqual("<div>\n\t<em>{}</em>\n\t<strong>{}</strong>\n</div>", str(el))
 
     def test_element_with_repeated_child(self):
-        # TODO: Still need to decide if I'm going to implement a count attribute.
-        # I think it's needed when combining nesting (>) with repeating (*).
-        self.skipTest("not implemented")
         el = Element("div")
-        el.content = [Element("p")]
+        el.set_content([Element("p")])
         el.content[0].count = 3
         self.assertEqual(
             "<div>\n\t<p>{}</p>\n\t<p>{}</p>\n\t<p>{}</p>\n</div>", str(el)

@@ -18,6 +18,9 @@ class ElementCollection:
     def __len__(self):
         return reduce(lambda length, value: length + value.count, self.items, 0)
 
+    def __getitem__(self, index):
+        return self.items[index]
+
     def __iter__(self):
         self._current = 0
         return self
@@ -34,6 +37,7 @@ class ElementCollection:
     def append(self, value):
         self.items.append(value)
 
+    # might be made superfluous using a __str__ method
     def flatten(self):
         items = []
         for i in self.items:
