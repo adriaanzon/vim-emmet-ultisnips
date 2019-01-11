@@ -29,7 +29,7 @@ def expand_abbreviation(input: str) -> str:
         break
 
     # TODO: add __str__ method on ElementCollection
-    return add_tabstops("\n".join([str(el) for el in elements]))
+    return add_tabstops("\n".join([str(el) for el in elements.flatten()]))
 
 
 def add_tabstops(html: str):

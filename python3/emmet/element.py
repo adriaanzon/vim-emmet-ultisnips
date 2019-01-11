@@ -1,7 +1,6 @@
 from __future__ import annotations
 from typing import List, Optional, Union
 from copy import copy
-from functools import reduce
 
 
 class ElementCollection:
@@ -16,23 +15,10 @@ class ElementCollection:
             self.items = []
 
     def __len__(self):
-        return reduce(lambda length, value: length + value.count, self.items, 0)
+        return len(self.items)
 
     def __getitem__(self, index):
         return self.items[index]
-
-    def __iter__(self):
-        self._current = 0
-        return self
-
-    def __next__(self):
-        flattened = self.flatten()
-        if self._current < len(flattened):
-            result = flattened[self._current]
-            self._current += 1
-            return result
-        else:
-            raise StopIteration
 
     def append(self, value):
         self.items.append(value)
@@ -41,11 +27,7 @@ class ElementCollection:
     def flatten(self):
         items = []
         for i in self.items:
-            for nth in range(i.count):
-                # maybe move this for loop to a to_list() function on Element
-                repeated_item = copy(i)
-                repeated_item.count = 1
-                items += [repeated_item]
+            items += [i for _ in range(i.count)]
         return items
 
 

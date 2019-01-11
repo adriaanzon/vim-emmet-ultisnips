@@ -40,23 +40,10 @@ class TestElementStringRepresentations(unittest.TestCase):
         el.set_content([Element("em"), Element("strong")])
         self.assertEqual("<div>\n\t<em>{}</em>\n\t<strong>{}</strong>\n</div>", str(el))
 
-    def test_element_with_repeated_child(self):
-        el = Element("div")
-        el.set_content([Element("p")])
-        el.content[0].count = 3
-        self.assertEqual(
-            "<div>\n\t<p>{}</p>\n\t<p>{}</p>\n\t<p>{}</p>\n</div>", str(el)
-        )
-
 
 class TestElementCollection(unittest.TestCase):
     def test_length(self):
         self.assertEqual(2, len(ElementCollection([Element(), Element()])))
-
-    def test_element_count_is_added_to_length(self):
-        el = Element()
-        el.count = 3
-        self.assertEqual(4, len(ElementCollection([Element(), el])))
 
     def test_flatten(self):
         el = Element()
@@ -64,13 +51,6 @@ class TestElementCollection(unittest.TestCase):
         flattened = ElementCollection([el]).flatten()
         self.assertIsInstance(flattened, list)
         self.assertEqual(3, len(flattened))
-
-    def test_flatten_resets_count_of_children(self):
-        el = Element()
-        el.count = 3
-        flattened = ElementCollection([el]).flatten()
-        for item in flattened:
-            self.assertEqual(1, item.count)
 
 
 if __name__ == "__main__":
