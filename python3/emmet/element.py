@@ -27,13 +27,13 @@ class ElementCollection:
     def flatten(self):
         items = []
         for i in self.items:
-            items += [i for _ in range(i.count)]
+            items += [i] * i.repeat
         return items
 
 
 class Text:
     body: str
-    count = 1
+    repeat = 1
     # an "nth" property may be needed when supporting the ($) operator
 
     def __init__(self, body=""):
@@ -47,7 +47,7 @@ class Element:
     name: str
     attributes: List[Attribute]
     content: ElementCollection
-    count = 1
+    repeat = 1
     # an "nth" property may be needed when supporting the ($) operator
 
     def __init__(self, name="div"):
@@ -97,8 +97,8 @@ class Element:
 
         self.attributes.append(Attribute(name, [value]))
 
-    def set_count(self, value):
-        self.count = int(value)
+    def set_repeat(self, value):
+        self.repeat = int(value)
 
     def child_indent_level(self):
         return 1

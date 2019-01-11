@@ -22,7 +22,7 @@ def expand_abbreviation(input: str) -> str:
         # extract custom attributes...
         # extract content...
 
-        if parser.extract_repeat(lambda times: el.set_count(times)):
+        if parser.extract_repeat(lambda times: el.set_repeat(times)):
             continue
 
         # stop parsing when unrecognized content was found

@@ -47,7 +47,7 @@ class TestElementCollection(unittest.TestCase):
 
     def test_flatten(self):
         el = Element()
-        el.count = 3
+        el.repeat = 3
         flattened = ElementCollection([el]).flatten()
         self.assertIsInstance(flattened, list)
         self.assertEqual(3, len(flattened))
