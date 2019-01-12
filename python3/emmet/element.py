@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import List, Optional, Union
-from copy import copy
 
 
 class ElementCollection:
@@ -23,12 +22,14 @@ class ElementCollection:
     def append(self, value):
         self.items.append(value)
 
-    # might be made superfluous using a __str__ method
     def flatten(self):
         items = []
         for i in self.items:
             items += [i] * i.repeat
         return items
+
+    def __str__(self):
+        return "\n".join([str(item) for item in self.flatten()])
 
 
 class Text:
@@ -39,8 +40,11 @@ class Text:
     def __init__(self, body=""):
         self.body = body
 
+    def to_string_lines(self):
+        return [self.body]
+
     def __str__(self):
-        return self.body
+        return "\n".join(self.to_string_lines())
 
 
 class Element:
@@ -55,25 +59,31 @@ class Element:
         self.attributes = []
         self.content = ElementCollection()
 
-    def __str__(self) -> str:
-        indent = self.child_indent_level()
-        el = "\t" * (indent - 1)
-
-        el += "<" + self.name
+    def to_string_lines(self):
+        lines = []
+        tag_start = "<" + self.name
         if self.attributes:
-            el += " " + " ".join([str(a) for a in self.attributes])
-        el += ">"
+            tag_start += " " + " ".join([str(a) for a in self.attributes])
+        tag_start += ">"
+        tag_end = "</" + self.name + ">"
+
+        lines.append(tag_start)
 
         if not self.content:
-            el += "{}"
+            lines[-1] += "{}" + tag_end
         elif len(self.content) == 1 and not isinstance(self.content[0], Element):
-            el += str(self.content[0])
+            lines[-1] += str(self.content[0]) + tag_end
         else:
             for c in self.content:
-                el += "\n" + ("\t" * indent) + str(c)
-            el += "\n" + ("\t" * (indent - 1))
+                lines += c.to_string_lines()
+            lines.append(tag_end)
 
-        return el + "</" + self.name + ">"
+        lines[1:-1] = map(lambda intermediate: "\t" + intermediate, lines[1:-1])
+
+        return lines
+
+    def __str__(self) -> str:
+        return "\n".join(self.to_string_lines())
 
     def set_content(self, value):
         self.content = ElementCollection(value)
@@ -99,9 +109,6 @@ class Element:
 
     def set_repeat(self, value):
         self.repeat = int(value)
-
-    def child_indent_level(self):
-        return 1
 
 
 class Attribute:

@@ -28,8 +28,7 @@ def expand_abbreviation(input: str) -> str:
         # stop parsing when unrecognized content was found
         break
 
-    # TODO: add __str__ method on ElementCollection
-    return add_tabstops("\n".join([str(el) for el in elements.flatten()]))
+    return add_tabstops(str(elements))
 
 
 def add_tabstops(html: str):

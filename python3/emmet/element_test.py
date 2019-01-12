@@ -40,6 +40,16 @@ class TestElementStringRepresentations(unittest.TestCase):
         el.set_content([Element("em"), Element("strong")])
         self.assertEqual("<div>\n\t<em>{}</em>\n\t<strong>{}</strong>\n</div>", str(el))
 
+    def test_nested_elements_multiple_levels(self):
+        div = Element("div")
+        p = Element("p")
+        p.content.append(Element("span"))
+        div.content.append(p)
+        self.assertEqual(
+            "<div>\n\t<p>\n\t\t<span>{}</span>\n\t</p>\n</div>",
+            str(ElementCollection([div])),
+        )
+
 
 class TestElementCollection(unittest.TestCase):
     def test_length(self):
