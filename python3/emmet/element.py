@@ -22,14 +22,8 @@ class ElementCollection:
     def append(self, value):
         self.items.append(value)
 
-    def flatten(self):
-        items = []
-        for i in self.items:
-            items += [i] * i.repeat
-        return items
-
     def __str__(self):
-        return "\n".join([str(item) for item in self.flatten()])
+        return "\n".join([str(item) for item in self.items])
 
 
 class Text:
@@ -41,7 +35,7 @@ class Text:
         self.body = body
 
     def to_string_lines(self):
-        return [self.body]
+        return [self.body] * self.repeat
 
     def __str__(self):
         return "\n".join(self.to_string_lines())
@@ -80,7 +74,7 @@ class Element:
 
         lines[1:-1] = map(lambda intermediate: "\t" + intermediate, lines[1:-1])
 
-        return lines
+        return lines * self.repeat
 
     def __str__(self) -> str:
         return "\n".join(self.to_string_lines())

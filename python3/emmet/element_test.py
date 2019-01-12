@@ -40,7 +40,15 @@ class TestElementStringRepresentations(unittest.TestCase):
         el.set_content([Element("em"), Element("strong")])
         self.assertEqual("<div>\n\t<em>{}</em>\n\t<strong>{}</strong>\n</div>", str(el))
 
-    def test_nested_elements_multiple_levels(self):
+    def test_nested_elements_with_repeat(self):
+        div = Element("div")
+        p = Element("p")
+        p.repeat = 2
+        div.content.append(p)
+        collection = ElementCollection([div])
+        self.assertEqual("<div>\n\t<p>{}</p>\n\t<p>{}</p>\n</div>", str(collection))
+
+    def test_indentation_is_applied_for_each_level(self):
         div = Element("div")
         p = Element("p")
         p.content.append(Element("span"))
@@ -54,13 +62,6 @@ class TestElementStringRepresentations(unittest.TestCase):
 class TestElementCollection(unittest.TestCase):
     def test_length(self):
         self.assertEqual(2, len(ElementCollection([Element(), Element()])))
-
-    def test_flatten(self):
-        el = Element()
-        el.repeat = 3
-        flattened = ElementCollection([el]).flatten()
-        self.assertIsInstance(flattened, list)
-        self.assertEqual(3, len(flattened))
 
 
 if __name__ == "__main__":
