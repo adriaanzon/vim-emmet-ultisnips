@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List, Optional, Union
+from collections.abc import Sequence
 
 
 class ElementCollection:
@@ -8,8 +9,10 @@ class ElementCollection:
     def __init__(self, items=None):
         if isinstance(items, self.__class__):
             self.items = items.items
-        elif items:
-            self.items = items
+        elif isinstance(items, Sequence):
+            self.items = list(items)
+        elif items is not None:
+            self.items = [items]
         else:
             self.items = []
 
