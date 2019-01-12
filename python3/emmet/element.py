@@ -1,32 +1,24 @@
 from __future__ import annotations
 from typing import List, Optional, Union
 from collections.abc import Sequence
+from collections import UserList
 
 
-class ElementCollection:
-    items: List[Union[Element, Text]]
+class ElementCollection(UserList):
+    data: List[Union[Element, Text]]
 
-    def __init__(self, items=None):
-        if isinstance(items, self.__class__):
-            self.items = items.items
-        elif isinstance(items, Sequence):
-            self.items = list(items)
-        elif items is not None:
-            self.items = [items]
+    def __init__(self, data=None):
+        if isinstance(data, self.__class__):
+            self.data = data.data[:]
+        elif isinstance(data, Sequence):
+            self.data = list(data)
+        elif data is not None:
+            self.data = [data]
         else:
-            self.items = []
-
-    def __len__(self):
-        return len(self.items)
-
-    def __getitem__(self, index):
-        return self.items[index]
-
-    def append(self, value):
-        self.items.append(value)
+            self.data = []
 
     def __str__(self):
-        return "\n".join([str(item) for item in self.items])
+        return "\n".join([str(node) for node in self.data])
 
 
 class Text:
