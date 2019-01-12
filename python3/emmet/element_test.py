@@ -40,13 +40,22 @@ class TestElementStringRepresentations(unittest.TestCase):
         el.set_content([Element("em"), Element("strong")])
         self.assertEqual("<div>\n\t<em>{}</em>\n\t<strong>{}</strong>\n</div>", str(el))
 
-    def test_nested_elements_with_repeat(self):
+    def test_nested_elements_with_repeated_child(self):
         div = Element("div")
         p = Element("p")
         p.repeat = 2
         div.content.append(p)
         collection = ElementCollection([div])
         self.assertEqual("<div>\n\t<p>{}</p>\n\t<p>{}</p>\n</div>", str(collection))
+
+    def test_nested_elements_with_repeated_parent(self):
+        div = Element("div")
+        div.repeat = 2
+        div.content.append(Element("p"))
+        collection = ElementCollection([div])
+        self.assertEqual(
+            "<div>\n\t<p>{}</p>\n</div>\n<div>\n\t<p>{}</p>\n</div>", str(collection)
+        )
 
     def test_indentation_is_applied_for_each_level(self):
         div = Element("div")
