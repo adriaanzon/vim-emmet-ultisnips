@@ -1,11 +1,12 @@
 from __future__ import annotations
-from typing import List, Optional, Union
+from typing import List, Optional
 from collections.abc import Sequence
 from collections import UserList
+from abc import ABC, abstractmethod
 
 
 class ElementCollection(UserList):
-    data: List[Union[Element, Text]]
+    data: List[Node]
 
     def __init__(self, data=None):
         if isinstance(data, self.__class__):
@@ -21,7 +22,17 @@ class ElementCollection(UserList):
         return "\n".join([str(node) for node in self.data])
 
 
-class Text:
+class Node(ABC):
+    @abstractmethod
+    def to_list(self):
+        """Get each line of the node's string representation."""
+        pass
+
+    def __str__(self):
+        return "\n".join(self.to_list())
+
+
+class Text(Node):
     body: str
     repeat = 1
     # an "nth" property may be needed when supporting the ($) operator
@@ -29,14 +40,11 @@ class Text:
     def __init__(self, body=""):
         self.body = body
 
-    def to_string_lines(self):
+    def to_list(self):
         return [self.body] * self.repeat
 
-    def __str__(self):
-        return "\n".join(self.to_string_lines())
 
-
-class Element:
+class Element(Node):
     name: str
     attributes: List[Attribute]
     content: ElementCollection
@@ -48,7 +56,7 @@ class Element:
         self.attributes = []
         self.content = ElementCollection()
 
-    def to_string_lines(self):
+    def to_list(self):
         lines = []
         tag_start = "<" + self.name
         if self.attributes:
@@ -64,15 +72,12 @@ class Element:
             lines[-1] += str(self.content[0]) + tag_end
         else:
             for c in self.content:
-                lines += c.to_string_lines()
+                lines += c.to_list()
             lines.append(tag_end)
 
         lines[1:-1] = map(lambda intermediate: "\t" + intermediate, lines[1:-1])
 
         return lines * self.repeat
-
-    def __str__(self) -> str:
-        return "\n".join(self.to_string_lines())
 
     def set_content(self, value):
         self.content = ElementCollection(value)
@@ -116,7 +121,7 @@ class Attribute:
         return attribute
 
     def get_value(self) -> Optional[str]:
-        return " ".join(self.filter_values())
+        return " ".join(self.filtered_values())
 
-    def filter_values(self):
+    def filtered_values(self):
         return [v for v in self.values if v and not v.isspace()]
