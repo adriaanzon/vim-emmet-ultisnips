@@ -14,14 +14,12 @@ extends html
 
 ## Supported syntax
 
-Currently, only a small subset of Emmet's features are supported, though it is
-sufficient for what I need.
-
 | name    | example            |
 | ---     | ---                |
 | element | `div`, `p`         |
 | class   | `.foo`, `.foo.bar` |
 | id      | `#foobar`          |
+| child   | `ul>li`            |
 | repeat  | `div*3`            |
 
 ## Alternatives

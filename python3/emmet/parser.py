@@ -36,3 +36,6 @@ class Parser:
 
     def extract_repeat(self, tap):
         return self.extract_pattern(r"^\*(\d+)", tap)
+
+    def extract_child(self, tap):
+        return self.extract_pattern(r"^(>)", lambda _: self.extract_element_name(tap))

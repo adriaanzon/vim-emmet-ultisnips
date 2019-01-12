@@ -6,6 +6,7 @@ from emmet.parser import Parser
 
 def expand_abbreviation(input: str) -> str:
     e = ElementCollection(Element())
+    root = e
     parser = Parser(input)
 
     parser.extract_element_name(lambda name: e[-1].set_name(name))
@@ -23,13 +24,14 @@ def expand_abbreviation(input: str) -> str:
         if parser.extract_repeat(lambda times: e[-1].set_repeat(times)):
             continue
 
-        # if parser.extract_nest(lambda name: e.append(Element(name))):
-        #     pass
+        if parser.extract_child(lambda name: e[-1].content.append(Element(name))):
+            e = e[-1].content
+            continue
 
         # stop parsing when unrecognized content was found
         break
 
-    return add_tabstops(str(e))
+    return add_tabstops(str(root))
 
 
 def add_tabstops(html: str):

@@ -56,6 +56,21 @@ class TestExpandAbbreviation(unittest.TestCase):
             expand_abbreviation(".foo#bar*2"),
         )
 
+    def test_child(self):
+        self.assertEqual(
+            "<div>\n\t<div>$0</div>\n</div>", expand_abbreviation("div>div")
+        )
+        self.assertEqual(
+            "<div>\n\t<div>\n\t\t<div>$0</div>\n\t</div>\n</div>",
+            expand_abbreviation("div>div>div"),
+        )
+
+    def test_child_with_repeated_parent(self):
+        self.assertEqual(
+            '<div>\n\t<p>\n\t\t<span class="center">$1</span>\n\t</p>\n\t<p>\n\t\t<span class="center">$2</span>\n\t</p>\n\t<p>\n\t\t<span class="center">$0</span>\n\t</p>\n</div>',
+            expand_abbreviation("div>p*3>span.center"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
