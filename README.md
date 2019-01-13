@@ -1,9 +1,18 @@
 Emmet for Vim, implemented with UltiSnips. [![CircleCI](https://circleci.com/gh/adriaanzon/vim-emmet-ultisnips.svg?style=svg)](https://circleci.com/gh/adriaanzon/vim-emmet-ultisnips)
 
-Before using this plugin, make sure you have:
+## Installation
 
-* [UltiSnips](https://github.com/SirVer/ultisnips) (`Plug 'SirVer/ultisnips'`)
-* python 3.4 or higher (`:python3 print(sys.version)`)
+Requires Python 3.4 or higher (`:python3 print(sys.version)`) and
+[UltiSnips](https://github.com/SirVer/ultisnips).
+
+Install via e.g. vim-plug:
+
+```vim
+Plug 'adriaanzon/vim-emmet-ultisnips'
+Plug 'SirVer/ultisnips'
+```
+
+### Configuration
 
 The snippets are enabled by default in HTML files. To use it in Vue files for
 example, put the following in your `UltiSnips/vue.snippets`:
