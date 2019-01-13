@@ -1,13 +1,9 @@
-from __future__ import annotations
-from typing import List, Optional
 from collections.abc import Sequence
 from collections import UserList
 from abc import ABC, abstractmethod
 
 
-class ElementCollection(UserList):
-    data: List[Node]
-
+class NodeCollection(UserList):
     def __init__(self, data=None):
         if isinstance(data, self.__class__):
             self.data = data.data[:]
@@ -19,10 +15,16 @@ class ElementCollection(UserList):
             self.data = []
 
     def __str__(self):
-        return "\n".join([str(node) for node in self.data])
+        return "\n".join([line for node in self.data for line in node.to_list()])
 
 
 class Node(ABC):
+    repeat = 1
+    # an "nth" property may be needed when supporting the ($) operator
+
+    def set_repeat(self, value):
+        self.repeat = int(value)
+
     @abstractmethod
     def to_list(self):
         """Get each line of the node's string representation."""
@@ -33,10 +35,6 @@ class Node(ABC):
 
 
 class Text(Node):
-    body: str
-    repeat = 1
-    # an "nth" property may be needed when supporting the ($) operator
-
     def __init__(self, body=""):
         self.body = body
 
@@ -45,16 +43,10 @@ class Text(Node):
 
 
 class Element(Node):
-    name: str
-    attributes: List[Attribute]
-    content: ElementCollection
-    repeat = 1
-    # an "nth" property may be needed when supporting the ($) operator
-
     def __init__(self, name="div"):
         self.name = name
-        self.attributes = []
-        self.content = ElementCollection()
+        self.attributes = []  # type: List[Attribute]
+        self.content = NodeCollection()
 
     def to_list(self):
         lines = []
@@ -80,12 +72,12 @@ class Element(Node):
         return lines * self.repeat
 
     def set_content(self, value):
-        self.content = ElementCollection(value)
+        self.content = NodeCollection(value)
 
     def set_name(self, value):
         self.name = value
 
-    def set_attribute(self, name: str, values: list):
+    def set_attribute(self, name, values):
         for attr in self.attributes:
             if attr.name == name:
                 attr.values = values
@@ -101,26 +93,20 @@ class Element(Node):
 
         self.attributes.append(Attribute(name, [value]))
 
-    def set_repeat(self, value):
-        self.repeat = int(value)
-
 
 class Attribute:
-    name: str
-    values: List[str]
-
     def __init__(self, name, values=[]):
         self.name = name
-        self.values = values
+        self.values = values  # type: List[str]
 
-    def __str__(self) -> str:
+    def __str__(self):
         attribute = self.name
         value = self.get_value()
         if value:
             attribute += '="' + value + '"'
         return attribute
 
-    def get_value(self) -> Optional[str]:
+    def get_value(self):
         return " ".join(self.filtered_values())
 
     def filtered_values(self):

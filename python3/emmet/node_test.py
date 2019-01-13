@@ -1,5 +1,5 @@
 import unittest
-from emmet.element import Attribute, Element, ElementCollection, Text
+from emmet.node import Attribute, Element, NodeCollection, Text
 
 
 class TestElementStringRepresentations(unittest.TestCase):
@@ -45,14 +45,14 @@ class TestElementStringRepresentations(unittest.TestCase):
         p = Element("p")
         p.repeat = 2
         div.content.append(p)
-        collection = ElementCollection([div])
+        collection = NodeCollection([div])
         self.assertEqual("<div>\n\t<p>{}</p>\n\t<p>{}</p>\n</div>", str(collection))
 
     def test_nested_elements_with_repeated_parent(self):
         div = Element("div")
         div.repeat = 2
         div.content.append(Element("p"))
-        collection = ElementCollection([div])
+        collection = NodeCollection([div])
         self.assertEqual(
             "<div>\n\t<p>{}</p>\n</div>\n<div>\n\t<p>{}</p>\n</div>", str(collection)
         )
@@ -64,13 +64,13 @@ class TestElementStringRepresentations(unittest.TestCase):
         div.content.append(p)
         self.assertEqual(
             "<div>\n\t<p>\n\t\t<span>{}</span>\n\t</p>\n</div>",
-            str(ElementCollection([div])),
+            str(NodeCollection([div])),
         )
 
 
-class TestElementCollection(unittest.TestCase):
+class TestNodeCollection(unittest.TestCase):
     def test_length(self):
-        self.assertEqual(2, len(ElementCollection([Element(), Element()])))
+        self.assertEqual(2, len(NodeCollection([Element(), Element()])))
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ Emmet for Vim, implemented with UltiSnips. [![CircleCI](https://circleci.com/gh/
 Before using this plugin, make sure you have:
 
 * [UltiSnips](https://github.com/SirVer/ultisnips) (`Plug 'SirVer/ultisnips'`)
-* python 3.7 or higher (`:python3 print(sys.version)`)
+* python 3.4 or higher (`:python3 print(sys.version)`)
 
 The snippets are enabled by default in HTML files. To use it in Vue files for
 example, put the following in your `UltiSnips/vue.snippets`:

@@ -2,12 +2,8 @@ import re
 
 
 class Parser:
-    input: str
-    # elements: List[Element]
-
     def __init__(self, input):
         self.input = input
-        # self.elements = []
 
     def extract_element_name(self, tap):
         """Extract the element name if it comes first, otherwise use 'div' as name"""
