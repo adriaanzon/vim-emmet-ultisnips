@@ -32,7 +32,7 @@ def should_expand_emmet():
     """
     Checks if the cursor is at the top level of a file, syntax-wise.
     """
-    expr = "map(synstack(line('.'), col('.')), {_, id -> synIDattr(id, 'name')})"
+    expr = "map(synstack(line('.'), col('.') - 1), {_, id -> synIDattr(id, 'name')})"
 
     try:
         synstack = vim.api.eval(expr)

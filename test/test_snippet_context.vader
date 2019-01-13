@@ -179,3 +179,16 @@ Expect (expands inside the inner portion of an <em> tag):
   <em>
     <div>t</div>
   </em>
+
+Given html:
+  <img
+    id="/some-image.jpg"
+    alt="some image"
+  >
+Do:
+  GA\<Tab>t
+Expect (tag end isn't mistaken for a child operator):
+  <img
+    id="/some-image.jpg"
+    alt="some image"
+  > t
