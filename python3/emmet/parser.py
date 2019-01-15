@@ -30,6 +30,9 @@ class Parser:
         """Extract the id from the input if it comes first"""
         return self.extract_pattern(r"^#([A-Za-z0-9-_:]+)", tap)
 
+    def extract_text(self, tap):
+        return self.extract_pattern(r"^{([^}]+)}", tap)
+
     def extract_repeat(self, tap):
         return self.extract_pattern(r"^\*(\d+)", tap)
 

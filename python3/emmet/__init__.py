@@ -1,5 +1,5 @@
 import string
-from emmet.node import Element, NodeCollection
+from emmet.node import Element, NodeCollection, Text
 from emmet.parser import Parser
 
 
@@ -19,7 +19,9 @@ def expand_abbreviation(input):
             continue
 
         # extract custom attributes...
-        # extract content...
+
+        if parser.extract_text(lambda body: c[-1].content.append(Text(body))):
+            continue
 
         if parser.extract_repeat(lambda times: c[-1].set_repeat(times)):
             continue
