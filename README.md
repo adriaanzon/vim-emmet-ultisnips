@@ -23,13 +23,20 @@ extends html
 
 ## Supported syntax
 
-| name    | example            |
-| ---     | ---                |
-| element | `div`, `p`         |
-| class   | `.foo`, `.foo.bar` |
-| id      | `#foobar`          |
-| child   | `ul>li`            |
-| repeat  | `div*3`            |
+| name              | example            |
+| ---               | ---                |
+| [element]         | `div`, `p`         |
+| [class][id-class] | `.foo`, `.foo.bar` |
+| [id][id-class]    | `#foobar`          |
+| [child]           | `ul>li`            |
+| [repeat]          | `div*3`            |
+| [text]            | `a{Click me}`      |
+
+[element]: https://docs.emmet.io/abbreviations/syntax/#elements
+[id-class]: https://docs.emmet.io/abbreviations/syntax/#id-and-class
+[child]: https://docs.emmet.io/abbreviations/syntax/#child-gt
+[repeat]: https://docs.emmet.io/abbreviations/syntax/#multiplication
+[text]: https://docs.emmet.io/abbreviations/syntax/#text
 
 ## Alternatives
 
