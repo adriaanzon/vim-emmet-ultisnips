@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from collections import UserList
-from collections.abc import Sequence
+from collections.abc import MutableMapping, Sequence
 
 
 class NodeCollection(UserList):
@@ -100,6 +100,48 @@ class Element(Node):
                 return
 
         self.attributes.append(new_attribute)
+
+
+class AttributeCollection(MutableMapping):
+    """List of attributes. Attributes are accessed by their name."""
+
+    def __init__(self, data=None):
+        if data is None:
+            self.data = []
+        elif isinstance(data, list):
+            self.data = data
+        else:
+            raise TypeError("Underlying data must be a list of Attributes")
+
+    def __getitem__(self, name):
+        for attribute in self.data:
+            if attribute.name == name:
+                return attribute
+        raise KeyError("'{}' object has no attribute '{}'".format(self.__class__, name))
+
+    def __setitem__(self, name, value):
+        if isinstance(value, Attribute):
+            if name != value.name:
+                raise TypeError("Key name doesn't match with Attribute name")
+        else:
+            value = Attribute(name, value)
+
+        for index, attribute in enumerate(self.data):
+            if attribute.name == name:
+                self.data[index] = value
+                return
+        self.data.append(value)
+
+    def __delitem__(self, name):
+        for index, attribute in enumerate(self.data):
+            if attribute.name == name:
+                del self.data[index]
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __len__(self):
+        return len(self.data)
 
 
 class Attribute:

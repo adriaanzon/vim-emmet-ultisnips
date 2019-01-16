@@ -1,6 +1,6 @@
 import unittest
 
-from emmet.node import Attribute, Element, NodeCollection, Text
+from emmet.node import Attribute, AttributeCollection, Element, NodeCollection, Text
 
 
 class TestElementStringRepresentations(unittest.TestCase):
@@ -72,6 +72,35 @@ class TestElementStringRepresentations(unittest.TestCase):
 class TestNodeCollection(unittest.TestCase):
     def test_length(self):
         self.assertEqual(2, len(NodeCollection([Element(), Element()])))
+
+
+class TestAttributeCollection(unittest.TestCase):
+    def test_length(self):
+        collection = AttributeCollection(
+            [Attribute("id", "some-id"), Attribute("class", "some-class")]
+        )
+        self.assertEqual(2, len(collection))
+
+    def test_getitem(self):
+        id_attr = Attribute("id", "some-id")
+        class_attr = Attribute("class", "some-class")
+        collection = AttributeCollection([id_attr, class_attr])
+
+        self.assertEqual(id_attr, collection["id"])
+        self.assertEqual(class_attr, collection["class"])
+
+    def test_setitem(self):
+        collection = AttributeCollection()
+        collection["id"] = "some-id"
+
+        self.assertEqual(1, len(collection))
+        self.assertEqual(["some-id"], collection["id"].values)
+
+    def test_overwrite(self):
+        collection = AttributeCollection([Attribute("id", "some-id")])
+        collection["id"] = "some-other-id"
+        self.assertEqual(1, len(collection))
+        self.assertEqual(["some-other-id"], collection["id"].values)
 
 
 if __name__ == "__main__":
