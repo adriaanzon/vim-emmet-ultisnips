@@ -1,6 +1,6 @@
 import string
 
-from emmet.node import NodeCollection, Text
+from emmet.node import NodeCollection
 from emmet.parser import Parser
 
 
@@ -13,12 +13,10 @@ def expand_abbreviation(input):
     parser.extract_element(c.append)
 
     while parser.input:
-        if parser.extract_class_name(
-            lambda name: c[-1].add_to_attribute("class", name)
-        ):
+        if parser.extract_class_name(c[-1].attributes.add_class):
             continue
 
-        if parser.extract_id(c[-1].replace_or_add_attribute):
+        if parser.extract_id(c[-1].attributes.put):
             continue
 
         # extract custom attributes...

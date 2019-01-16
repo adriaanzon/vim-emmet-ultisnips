@@ -45,7 +45,7 @@ class Text(Node):
 class Element(Node):
     def __init__(self, name="div"):
         self.name = name
-        self.attributes = []  # type: List[Attribute]
+        self.attributes = AttributeCollection()
         self.content = NodeCollection()
 
     def to_list(self):
@@ -77,30 +77,6 @@ class Element(Node):
     def set_name(self, value):
         self.name = value
 
-    def set_attribute(self, name, values):
-        for attr in self.attributes:
-            if attr.name == name:
-                attr.values = values
-                return
-
-        self.attributes.append(Attribute(name, values))
-
-    def add_to_attribute(self, name, value):
-        for attr in self.attributes:
-            if attr.name == name:
-                attr.values.append(value)
-                return
-
-        self.attributes.append(Attribute(name, [value]))
-
-    def replace_or_add_attribute(self, new_attribute):
-        for index, a in enumerate(self.attributes):
-            if a.name == new_attribute.name:
-                self.attributes[index] = new_attribute
-                return
-
-        self.attributes.append(new_attribute)
-
 
 class AttributeCollection(MutableMapping):
     """List of attributes. Attributes are accessed by their name."""
@@ -112,6 +88,16 @@ class AttributeCollection(MutableMapping):
             self.data = data
         else:
             raise TypeError("Underlying data must be a list of Attributes")
+
+    def put(self, attribute):
+        self[attribute.name] = attribute
+
+    def add_class(self, name):
+        """Class is a special attribute. New values aren't overwritten but appended."""
+        if "class" in self:
+            self["class"].values.append(name)
+        else:
+            self["class"] = name
 
     def __getitem__(self, name):
         for attribute in self.data:
