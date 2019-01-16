@@ -19,7 +19,7 @@ class Parser:
         match = regex.match(self.input)
         if match:
             self.input = regex.sub("", self.input)
-            tap(match.group(1))
+            tap(*match.groups())
         return bool(match)
 
     def extract_class(self, tap):
@@ -37,4 +37,4 @@ class Parser:
         return self.extract_pattern(r"^\*(\d+)", tap)
 
     def extract_child(self, tap):
-        return self.extract_pattern(r"^(>)", lambda _: self.extract_element_name(tap))
+        return self.extract_pattern(r"^>", lambda: self.extract_element_name(tap))
