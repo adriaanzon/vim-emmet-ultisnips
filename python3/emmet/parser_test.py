@@ -72,6 +72,17 @@ class TestExpandAbbreviation(unittest.TestCase):
             expand_abbreviation("div>p*3>span.center"),
         )
 
+    def test_text(self):
+        self.assertEqual(
+            "<p>I'm a paragraph</p>", expand_abbreviation("p{I'm a paragraph}")
+        )
+
+    def text_text_and_child_element(self):
+        self.assertEqual(
+            "<p>\n\tI'm a paragraph\n\t<div></div>\n</p>",
+            expand_abbreviation("p{I'm a paragraph}>div"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,33 +1,35 @@
 import string
 
-from emmet.node import Element, NodeCollection, Text
+from emmet.node import NodeCollection, Text
 from emmet.parser import Parser
 
 
 def expand_abbreviation(input):
     """Transform an emmet abbreviation into a snippet"""
-    c = NodeCollection(Element())
+    c = NodeCollection()
     root = c
     parser = Parser(input)
 
-    parser.extract_element_name(lambda name: c[-1].set_name(name))
+    parser.extract_element(c.append)
 
     while parser.input:
-        if parser.extract_class(lambda name: c[-1].add_to_attribute("class", name)):
+        if parser.extract_class_name(
+            lambda name: c[-1].add_to_attribute("class", name)
+        ):
             continue
 
-        if parser.extract_id(lambda name: c[-1].set_attribute("id", [name])):
+        if parser.extract_id(c[-1].replace_or_add_attribute):
             continue
 
         # extract custom attributes...
 
-        if parser.extract_text(lambda body: c[-1].content.append(Text(body))):
+        if parser.extract_text(c[-1].content.append):
             continue
 
-        if parser.extract_repeat(lambda times: c[-1].set_repeat(times)):
+        if parser.extract_repeat(c[-1].set_repeat):
             continue
 
-        if parser.extract_child(lambda name: c[-1].content.append(Element(name))):
+        if parser.extract_child(c[-1].content.append):
             c = c[-1].content
             continue
 

@@ -93,11 +93,19 @@ class Element(Node):
 
         self.attributes.append(Attribute(name, [value]))
 
+    def replace_or_add_attribute(self, new_attribute):
+        for index, a in enumerate(self.attributes):
+            if a.name == new_attribute.name:
+                self.attributes[index] = new_attribute
+                return
+
+        self.attributes.append(new_attribute)
+
 
 class Attribute:
     def __init__(self, name, values=[]):
         self.name = name
-        self.values = values  # type: List[str]
+        self.values = [values] if isinstance(values, str) else values
 
     def __str__(self):
         attribute = self.name
