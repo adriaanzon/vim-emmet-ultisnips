@@ -1,8 +1,10 @@
+export PYTHONPATH = python3
+
 test: test-python test-vim test-nvim
 
 test-python:
-	PYTHONPATH=python3 python3 python3/emmet/node_test.py
-	PYTHONPATH=python3 python3 python3/emmet/parser_test.py
+	python3 python3/emmet/node_test.py
+	python3 python3/emmet/parser_test.py
 
 test-vim: deps
 	vim -u test/vimrc -c 'Vader! test/*.vader'
