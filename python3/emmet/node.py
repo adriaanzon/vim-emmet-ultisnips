@@ -1,6 +1,6 @@
-from collections.abc import Sequence
-from collections import UserList
 from abc import ABC, abstractmethod
+from collections import UserList
+from collections.abc import Sequence
 
 
 class NodeCollection(UserList):

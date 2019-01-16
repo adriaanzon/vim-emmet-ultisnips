@@ -1,4 +1,5 @@
 import string
+
 from emmet.node import Element, NodeCollection, Text
 from emmet.parser import Parser
 

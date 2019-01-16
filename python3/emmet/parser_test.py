@@ -1,5 +1,6 @@
 import unittest
-from emmet import expand_abbreviation, add_tabstops
+
+from emmet import add_tabstops, expand_abbreviation
 
 
 class TestExpandAbbreviation(unittest.TestCase):
