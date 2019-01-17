@@ -48,5 +48,8 @@ class Parser:
     def extract_repeat(self, tap):
         return self.extract_pattern(r"^\*(\d+)", tap)
 
+    def extract_sibling(self, tap):
+        return self.extract_pattern(r"^\+", lambda: self.extract_element(tap))
+
     def extract_child(self, tap):
         return self.extract_pattern(r"^>", lambda: self.extract_element(tap))

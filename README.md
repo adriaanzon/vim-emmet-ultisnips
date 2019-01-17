@@ -29,12 +29,14 @@ extends html
 | [class][id-class] | `.foo`, `.foo.bar` |
 | [id][id-class]    | `#foobar`          |
 | [child]           | `ul>li`            |
+| [sibling]         | `div+p`            |
 | [repeat]          | `div*3`            |
 | [text]            | `a{Click me}`      |
 
 [element]: https://docs.emmet.io/abbreviations/syntax/#elements
 [id-class]: https://docs.emmet.io/abbreviations/syntax/#id-and-class
 [child]: https://docs.emmet.io/abbreviations/syntax/#child-gt
+[sibling]: https://docs.emmet.io/abbreviations/syntax/#sibling
 [repeat]: https://docs.emmet.io/abbreviations/syntax/#multiplication
 [text]: https://docs.emmet.io/abbreviations/syntax/#text
 

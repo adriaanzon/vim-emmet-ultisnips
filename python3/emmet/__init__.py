@@ -27,6 +27,9 @@ def expand_abbreviation(input):
         if parser.extract_repeat(c[-1].set_repeat):
             continue
 
+        if parser.extract_sibling(c.append):
+            continue
+
         if parser.extract_child(c[-1].content.append):
             c = c[-1].content
             continue

@@ -83,6 +83,18 @@ class TestExpandAbbreviation(unittest.TestCase):
             expand_abbreviation("p{I'm a paragraph}>div"),
         )
 
+    def test_sibling(self):
+        self.assertEqual(
+            "<div>$1</div>\n<div>$0</div>",
+            expand_abbreviation("div+div"),
+        )
+
+    def test_nested_sibling(self):
+        self.assertEqual(
+            "<div>\n\t<p>$1</p>\n\t<div>$0</div>\n</div>",
+            expand_abbreviation("div>p+div"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
