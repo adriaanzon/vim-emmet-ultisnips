@@ -41,4 +41,5 @@ def add_tabstops(html):
     placeholder_count = sum(
         1 for x in string.Formatter().parse(html) if x[1] is not None
     )
-    return html.format(*["$" + str(i) for i in range(1, placeholder_count)] + ["$0"])
+    tabstops = ["$" + str(i) for i in range(1, placeholder_count)] + ["$0"]
+    return html.format(*tabstops)
