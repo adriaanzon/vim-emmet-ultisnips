@@ -84,10 +84,7 @@ class TestExpandAbbreviation(unittest.TestCase):
         )
 
     def test_sibling(self):
-        self.assertEqual(
-            "<div>$1</div>\n<div>$0</div>",
-            expand_abbreviation("div+div"),
-        )
+        self.assertEqual("<div>$1</div>\n<div>$0</div>", expand_abbreviation("div+div"))
 
     def test_nested_sibling(self):
         self.assertEqual(
