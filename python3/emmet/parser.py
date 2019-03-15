@@ -42,6 +42,37 @@ class Parser:
             r"^#([A-Za-z0-9-_:]+)", lambda value: tap(Attribute("id", value))
         )
 
+    def extract_attributes(self, tap):
+        regex = re.compile(r"^\[([^[]+)\]")
+        match = regex.match(self.input)
+        if match:
+            attributes = []
+            bracket_content = match.group(1)
+            while bracket_content:
+                remainder = self.extract_attribute(bracket_content, attributes.append)
+                if remainder != bracket_content:
+                    bracket_content = remainder
+                    continue
+                return False
+
+            list(map(tap, attributes))
+            self.input = regex.sub("", self.input)
+            return True
+
+        return False
+
+    def extract_attribute(self, bracket_content, tap):
+        """
+        This method works slightly different than all others in this class: it doesn't
+        mutate self.input, and it doesn't return a boolean but returns the remainder of
+        the mutated bracket_content.
+        """
+        regex = re.compile(r"^([^=]+)=(\S+)\s*")
+        match = regex.match(bracket_content)
+        if match:
+            tap(Attribute(match.group(1), match.group(2)))
+            return regex.sub("", bracket_content)
+
     def extract_text(self, tap):
         return self.extract_pattern(r"^{([^}]+)}", lambda body: tap(Text(body)))
 
