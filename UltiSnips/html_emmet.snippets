@@ -4,12 +4,14 @@ from emmet import expand_abbreviation
 from emmet.snippet_helpers import should_expand_emmet
 
 def replace_line_with_expanded_emmet_abbreviation(snip):
-	abbreviation = snip.buffer[snip.line].strip()
+	result = expand_abbreviation(snip.buffer[snip.line].strip())
 
-	# Erase current line. Emmet snippet has 'b' flag so we can safely do this.
-	snip.buffer[snip.line] = re.match(r"^\s*", snip.buffer[snip.line]).group(0)
-
-	snip.expand_anon(expand_abbreviation(abbreviation))
+	# Only expand the abbreviation if the result is not None.
+	# TODO: Leverage UltiSnips's "Custom context snippet" feature.
+	if result:
+		# Erase current line. Emmet snippet has 'b' flag so we can safely do this.
+		snip.buffer[snip.line] = re.match(r"^\s*", snip.buffer[snip.line]).group(0)
+		snip.expand_anon(result)
 endglobal
 
 priority -1000

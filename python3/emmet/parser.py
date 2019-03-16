@@ -53,13 +53,12 @@ class Parser:
                 if remainder != bracket_content:
                     bracket_content = remainder
                     continue
-                return False
+                return None
 
             list(map(tap, attributes))
             self.input = regex.sub("", self.input)
-            return True
 
-        return False
+        return match
 
     def extract_attribute(self, bracket_content, tap):
         """

@@ -27,8 +27,8 @@ def expand_abbreviation(input):
             c = c[-1].content
             continue
 
-        # stop parsing when unrecognized content was found
-        break
+        # Cancel when unsupported syntax is encountered
+        return None
 
     return add_tabstops(str(root))
 
