@@ -1,0 +1,33 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  vader-vim:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: rhysd/action-setup-vim@v1
+      - run: make test-vim
+
+  vader-nvim:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+      - run: pip install pynvim
+      - run: make test-nvim
+
+  python:
+    strategy:
+      matrix:
+        python: ['3.7', '3.x']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python }}
+      - run: make test-python

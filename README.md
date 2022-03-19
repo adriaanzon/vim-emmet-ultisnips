@@ -1,8 +1,4 @@
-<p align="center">Emmet for Vim, implemented with UltiSnips.</p>
-
-<p align="center">
-<a href="https://circleci.com/gh/adriaanzon/vim-emmet-ultisnips"><img src="https://circleci.com/gh/adriaanzon/vim-emmet-ultisnips.svg?style=svg" alt="CircleCI" /></a>
-</p>
+Emmet for Vim, implemented with UltiSnips.
 
 ## Installation
 

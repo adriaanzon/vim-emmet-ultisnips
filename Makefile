@@ -6,16 +6,16 @@ test-python:
 	python3 python3/emmet/node_test.py
 	python3 python3/emmet/parser_test.py
 
-test-vim: deps
+test-vim: dependencies
 	vim -u test/vimrc -c 'Vader! test/*.vader'
 
-test-nvim: deps
+test-nvim: dependencies
 	VADER_OUTPUT_FILE=/dev/stderr nvim -u test/vimrc -c 'Vader! test/*.vader' --headless
 
 clean:
 	rm -rf pack
 
-deps:
+dependencies:
 	test -L pack/testing/start/vim-emmet-ultisnips && exit 0; \
 	mkdir -p pack/testing/start; \
 	cd pack/testing/start; \
