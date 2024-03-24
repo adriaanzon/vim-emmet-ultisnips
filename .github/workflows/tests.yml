@@ -1,24 +1,30 @@
 name: Tests
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: 0 0 1 1 *
 
 jobs:
-  vader-vim:
-    runs-on: ubuntu-latest
+  vader:
+    strategy:
+      fail-fast: false
+      matrix:
+        editor: [vim, neovim]
+        version: [stable, nightly]
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: rhysd/action-setup-vim@v1
-      - run: make test-vim
-
-  vader-nvim:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: rhysd/action-setup-vim@v1
         with:
-          neovim: true
+          version: ${{ matrix.version }}
+          neovim: ${{ matrix.editor == 'neovim' }}
+          configure-args: --enable-python3interp
       - run: pip install pynvim
-      - run: make test-nvim
+        if: ${{ matrix.editor == 'neovim' }}
+      - run: make test-${{ matrix.editor }}
 
   python:
     strategy:
